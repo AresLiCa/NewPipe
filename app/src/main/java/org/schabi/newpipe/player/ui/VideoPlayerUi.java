@@ -90,6 +90,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+//Ares
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
 public abstract class VideoPlayerUi extends PlayerUi implements SeekBar.OnSeekBarChangeListener,
         PopupMenu.OnMenuItemClickListener, PopupMenu.OnDismissListener {
     private static final String TAG = VideoPlayerUi.class.getSimpleName();
@@ -131,6 +135,9 @@ public abstract class VideoPlayerUi extends PlayerUi implements SeekBar.OnSeekBa
     private PopupMenu captionPopupMenu;
 
 
+    //Ares
+    private Instant startInstant;
+
     /*//////////////////////////////////////////////////////////////////////////
     // Gestures
     //////////////////////////////////////////////////////////////////////////*/
@@ -164,6 +171,11 @@ public abstract class VideoPlayerUi extends PlayerUi implements SeekBar.OnSeekBa
     }
 
     private void initViews() {
+
+        //Ares
+        this.startInstant = Instant.now();
+
+
         setupSubtitleView();
 
         binding.resizeTextView
@@ -512,6 +524,15 @@ public abstract class VideoPlayerUi extends PlayerUi implements SeekBar.OnSeekBa
     public void onUpdateProgress(final int currentProgress,
                                  final int duration,
                                  final int bufferPercent) {
+
+        //Ares
+        Instant currentInstant = Instant.now();
+        long duration = ChronoUnit.SECONDS.between(startInstant, currentInstant);
+        if (duration >= 120) { // 120 seconds = 2 minutes
+           // getPlayer
+           player.pause();
+        }
+
 
         if (duration != binding.playbackSeekBar.getMax()) {
             setVideoDurationToControls(duration);
