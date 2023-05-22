@@ -526,8 +526,8 @@ public abstract class VideoPlayerUi extends PlayerUi implements SeekBar.OnSeekBa
                                  final int bufferPercent) {
 
         //Ares
-        Instant currentInstant = Instant.now();
-        long duration = ChronoUnit.SECONDS.between(startInstant, currentInstant);
+        final Instant currentInstant = Instant.now();
+        final long duration = ChronoUnit.SECONDS.between(startInstant, currentInstant);
         if (duration >= 120) { // 120 seconds = 2 minutes
            // getPlayer
            player.pause();
